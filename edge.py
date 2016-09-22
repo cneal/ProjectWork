@@ -34,8 +34,8 @@ class Edge(object):
 
     def __repr__(self):
         id = self.get_id()
-        from_node = self.get_to_node()
-        to_node = self.get_from_node()
+        from_node = self.get_from_node()
+        to_node = self.get_to_node()
         edge_weight = self.get_edge_weight()
         s = 'Edge %d [from: %d, to: %d, weight: %d]' % (id, from_node, to_node, edge_weight)
         return s
