@@ -6,11 +6,24 @@ class Graph(object):
 
     def __init__(self, name='Sans nom'):
         self.__name = name
-        self.__nodes = []   # Attribut prive.
+        self.__nodes = []       #Private. Array of nodes
+        self.__num_nodes = 0    #Private. Size of graph
+        self.__edges = []
+        self.__num_edges = 0
+        self.__adjacency_matrix = [] #initialize an empty adjacency matrix
 
     def add_node(self, node):
         "Ajoute un noeud au graphe."
         self.__nodes.append(node)
+        self.__num_nodes += 1
+
+    def add_edge(self, edge):
+        "Add a edge to the graph"
+        #if len(self.__adjacency_matrix) == 0:
+            #self.__adjacency_matrix.append([0] * self.__num_nodes)
+
+        self.__edges.append(edge)
+        self.__num_edges += 1
 
     def get_name(self):
         "Donne le nom du graphe."
@@ -24,10 +37,14 @@ class Graph(object):
         "Donne le nombre de noeuds du graphe."
         return len(self.__nodes)
 
+    def get_num_nodes(self):
+        "Return the number of nodes in the graph"
+        return self.__num_nodes
+
     def __repr__(self):
         name = self.get_name()
-        nb_nodes = self.get_nb_nodes()
-        s = 'Graphe %s comprenant %d noeuds' % (name, nb_nodes)
+        nb_nodes = self.get_num_nodes()
+        s = 'Graph %s has %d nodes' % (name, nb_nodes)
         for node in self.get_nodes():
             s += '\n  ' + repr(node)
         return s
