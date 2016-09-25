@@ -14,7 +14,10 @@ class Graph(object):
         self.__adjacency_matrix_dictionary = [] #initialize an empty adjacency matrix using a dictionary os distionary
 
     def __init__(self, readInstance={}):
-        """ It builds an Graph object from an given instance. The instance is encapsulated in a Dictionary data structure """
+        """
+        It builds an Graph object from an given instance. The instance is encapsulated in a Dictionary data structure
+        @:param readInstance: a dictionary containing information about the TSP problem
+        """
         if not readInstance.keys():
             print "Instance's dictionary not provided. Please provide a dictionary that contains instance's information."
             return
@@ -22,14 +25,15 @@ class Graph(object):
         import node
         import edge
 
-        self.__name = readInstance["header"]["NAME"]
-        self.__nodes = []  # Private. Array of nodes
-        self.__num_nodes = 0  # Private. Number of nodes
-        self.__edges = []  # Private. Array of edges
-        self.__num_edges = 0  # Private. Number of nodes
-        self.__adjacency_matrix = []  # initialize an empty adjacency matrix
-        self.__adjacency_matrix_dictionary = {}  # initialize an empty adjacency matrix using a dictionary of dictionaries
+        self.__name = readInstance["header"]["NAME"] #name of the graph
+        self.__nodes = []       #Array of nodes
+        self.__num_nodes = 0    #Number of nodes
+        self.__edges = []       #Array of edges
+        self.__num_edges = 0    #Number of edges
+        self.__adjacency_matrix = []            #initialize an empty adjacency matrix
+        self.__adjacency_matrix_dictionary = {} #initialize an empty double dictionary adjacency object
 
+        #add nodes to the graph
         for curNodeVal in xrange(0, readInstance["header"]["DIMENSION"]):
             newNode = node.Node(curNodeVal, readInstance["nodes"][curNodeVal])  # create a new node instance
             self.add_node(newNode)  # add node to the graph
@@ -39,25 +43,24 @@ class Graph(object):
             fromNodeId = tupleEdge[0]
             toNodeId = tupleEdge[1]
             edgeWeight = tupleEdge[2]
-            newEdge1 = edge.Edge(fromNodeId, toNodeId, edgeWeight)
-            self.add_edge(newEdge1)
-            newEdge2 = edge.Edge(toNodeId, fromNodeId, edgeWeight)  # create edges in both directions
-            self.add_edge(newEdge2)  # add edges in both directions
+            if edgeWeight > 0:
+                newEdge1 = edge.Edge(fromNodeId, toNodeId, edgeWeight) #create edge in original direction
+                self.add_edge(newEdge1)
+                newEdge2 = edge.Edge(toNodeId, fromNodeId, edgeWeight)  #create edges in the other direction
+                self.add_edge(newEdge2)
 
     def add_node(self, node):
-        "Ajoute un noeud au graphe."
+        "Add node to the graph"
         self.__nodes.append(node)
         self.__num_nodes += 1
 
     def add_edge(self, edge):
         """
         Add an edge to the graph.
-        -An Edge instance is appended to the list self.__edges[]
-        -The edge weight is put into the adjacency matrix
         """
 
         if len(self.__adjacency_matrix) == 0:
-            self.__initialize_adjacency_matrix()  # create an empty adjacency matrix if it doesnt exist yet
+            self.__initialize_adjacency_matrices()  #create an empty_adjacency_matrix & adjacency_matrix_dictionary if they doesnt exist yet
 
         self.__adjacency_matrix[edge.get_from_node()][edge.get_to_node()] = edge.get_edge_weight()
         self.__adjacency_matrix_dictionary[self.__nodes[edge.get_from_node()]][self.__nodes[edge.get_to_node()]] = edge
@@ -65,17 +68,15 @@ class Graph(object):
         self.__edges.append(edge)
         self.__num_edges += 1
 
-    def __initialize_adjacency_matrix(self):
+    def __initialize_adjacency_matrices(self):
         """
-        Initializes an empty adjacency matrix. Note it does not return anything.
-        It has the dimension (num_nodes) * (num_nodes) and all values are 0 (zero)
-        A value of 0 implies that there is no link between nodes.
+        Initializes the adjacency_matrix (a value of 0 implies no link between nodes) and the adjacency_matrix_dictionary
         """
         for dimension in range(1, self.__num_nodes+1):
-            self.__adjacency_matrix.append([0] * self.__num_nodes)
+            self.__adjacency_matrix.append([0] * self.__num_nodes) #size of matrix is (num_nodes) * (num_nodes)
 
         for i in range(0, self.__num_nodes):
-            self.__adjacency_matrix_dictionary[self.__nodes[i]] = {}
+            self.__adjacency_matrix_dictionary[self.__nodes[i]] = {} #add empty dictionary elements for each node
 
     def get_adjacency_matrix(self):
         """
@@ -118,9 +119,10 @@ class Graph(object):
             for nodeTo, edge in neighbors.iteritems():
                 s += "   %r\n" % edge
 
-        # Prints out the adjacency matrix for now.
+        # Prints out the adjacency matrix
         s += "\n\nAdjacency Matrix:\n"
         for i in xrange(0, self.__num_nodes):
+            s += str(i) + ": "
             for j in xrange(0, self.__num_nodes):
                 s += " " + str(self.__adjacency_matrix[i][j])
             s += "\n"

@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def read_header(fd):
     "Parse a .tsp file and return a dictionary with header data."
 
@@ -23,56 +22,6 @@ def read_header(fd):
             header[firstword] = converters[firstword](data[1].strip())
 
     return header
-
-
-# def read_nodes(header, fd):
-#     """
-#     Parse a .tsp file and return a dictionary of nodes, of the form
-#     {id:(x,y)}. If node coordinates are not given, an empty dictionary is
-#     returned. The actual number of nodes is in header['DIMENSION'].
-#     """
-#
-#     nodes = {}
-#
-#     node_coord_type = header['NODE_COORD_TYPE']
-#     display_data_type = header['DISPLAY_DATA_TYPE']
-#     if node_coord_type not in ['TWOD_COORDS', 'THREED_COORDS'] and \
-#             display_data_type not in ['COORDS_DISPLAY', 'TWOD_DISPLAY']:
-#
-#                 # Node coordinates are not given.
-#                 return nodes
-#
-#     dim = header['DIMENSION']
-#     fd.seek(0)
-#     k = 0
-#     display_data_section = False
-#     node_coord_section = False
-#
-#     for line in fd:
-#         if line.strip() == "DISPLAY_DATA_SECTION":
-#             display_data_section = True
-#             continue
-#         elif line.strip() == "NODE_COORD_SECTION":
-#             node_coord_section = True
-#             continue
-#
-#         if display_data_section:
-#             data = line.strip().split()
-#             nodes[int(data[0]) - 1] = tuple(map(float, data[1:]))
-#             k += 1
-#             if k >= dim:
-#                 break
-#             continue
-#
-#         elif node_coord_section:
-#             data = line.strip().split()
-#             nodes[int(data[0]) - 1] = tuple(map(float, data[1:]))
-#             k += 1
-#             if k >= dim:
-#                 break
-#             continue
-#
-#     return nodes
 
 def read_nodes(header, fd):
     """
@@ -178,7 +127,7 @@ def read_edges(header, fd):
             continue
 
         if edge_weight_section:
-            data = line.strip().split()
+            data = line.strip().split() #the weights along edges as a list
             n_data = len(data)
 
             start = 0
@@ -204,7 +153,7 @@ def read_edges(header, fd):
                                                 'LOWER_DIAG_ROW']:
                         edge = (i, k, int(data[j])) #edge = (startIndex, toIndex, weight)
                     elif edge_weight_format == 'FULL_MATRIX':
-                        edge = (k, i)
+                        edge = (k, i, int(data[j])) #edge = (startIndex, toIndex, weight))
                     edges.add(edge)
                     i += 1
 
@@ -290,9 +239,7 @@ def getStspData(finstance):
             edge_list[k].sort()
             print k, edge_list[k]
 
-        # if len(nodes) > 0:
-        #     plot_graph(nodes, edges)
-
+        #create dictionary of the information
         stspDict["header"] = header
         stspDict["nodes"] = nodes
         stspDict["edge_list"] = edge_list
@@ -300,16 +247,12 @@ def getStspData(finstance):
 
     return stspDict
 
-#python read_stsp.py instances\instances\stsp\bays29.tsp
-#python read_stsp.py instances\instances\stsp\\brazil58.tsp
 if __name__ == "__main__":
 
     import sys
 
     finstance = sys.argv[1]
-    #finstance = "instances\instances\stsp\\bayg29.tsp"
     print 'Loading file: ', finstance
-    #instances\instances\stsp\bayg29.tsp
 
     with open(finstance, "r") as fd:
 
@@ -342,12 +285,6 @@ if __name__ == "__main__":
         for k in range(dim):
             edge_list[k].sort()
             print k, edge_list[k]
-
-        stspDict = {}
-        stspDict["header"] = header
-        stspDict["nodes"] = nodes
-        stspDict["edge_list"] = edge_list
-        stspDict["edges"] = edges
 
     if len(nodes) > 0:
         plot_graph(nodes, edges)
