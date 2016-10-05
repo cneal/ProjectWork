@@ -5,9 +5,9 @@ class Edge(object):
 
     __edge_count = -1  # global counter shared across all Edge instances
 
-    def __init__(self, from_node='empty', to_node='empty', edge_weight='empty'):
-        self.__from_node = from_node
-        self.__to_node = to_node
+    def __init__(self, __node_a='empty', __node_b='empty', edge_weight='empty'):
+        self.__node_a = __node_a    #an instance of node.py
+        self.__node_b = __node_b    #an instance of node.py
         self.__edge_weight = edge_weight
         Edge.__edge_count += 1
         self.__id = Edge.__edge_count
@@ -20,13 +20,13 @@ class Edge(object):
         "@:return id of the graph"
         return self.__id
 
-    def get_from_node(self):
-        "@:return from node of the graph"
-        return self.__from_node
+    def get_node_a(self):
+        "@:return node_a of the graph"
+        return self.__node_a
 
-    def get_to_node(self):
-        "@:return to node of the graph"
-        return self.__to_node
+    def get_node_b(self):
+        "@:return node_b of the graph"
+        return self.__node_b
 
     def get_edge_weight(self):
         "@:return weight/cost of the edge"
@@ -34,10 +34,10 @@ class Edge(object):
 
     def __repr__(self):
         id = self.get_id()
-        from_node = self.get_from_node()
-        to_node = self.get_to_node()
+        node_a = self.get_node_a()
+        node_b = self.get_node_b()
         edge_weight = self.get_edge_weight()
-        s = 'Edge %d [from: %d, to: %d, weight: %d]' % (id, from_node, to_node, edge_weight)
+        s = 'Edge %d [node_a: %d, node_b: %d, weight: %d]' % (id, node_a.get_id(), node_b.get_id(), edge_weight)
         return s
 
 if __name__ == 'main':

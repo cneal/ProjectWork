@@ -205,7 +205,7 @@ def plot_graph(nodes, edges):
     return
 
 
-def getStspData(finstance):
+def get_stsp_data(finstance):
     """
     :param finstance: name of file (include filepath if in a different directory) of the .stsp file
     :return: stspDict: dictionary representation of the STSP problem
