@@ -11,7 +11,7 @@ class Node(object):
         Node.__node_count += 1
         self.__id = Node.__node_count
 
-        self.__krusgall_parent = self
+        self.__kruskal_parent = self
 
     def get_name(self):
         "Donne le nom du noeud."
@@ -25,8 +25,19 @@ class Node(object):
         "Donne les donnees contenues dans le noeud."
         return self.__data
 
-    def get_krusgall_parent(self):
-        return self.__krusgall_parent
+    def get_kruskal_parent(self):
+        "return the parent of the node. It's used in kruskal's algorithm"
+        return self.__kruskal_parent
+
+    def set_kruskal_parent(self, new_kruskal_parent):
+        "set the parent of the node. It's used in kruskal's algorithm"
+        self.__kruskal_parent = new_kruskal_parent
+
+    def find_disjoint_set(self):
+        "find the root of the node's disjoint set. It's function do path compression."
+        if self.__kruskal_parent != self:
+            self.__kruskal_parent = self.__kruskal_parent.find_disjoint_set()
+        return self.__kruskal_parent
 
     def __repr__(self):
         id = self.get_id()

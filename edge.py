@@ -32,6 +32,9 @@ class Edge(object):
         "@:return weight/cost of the edge"
         return self.__edge_weight
 
+    def __lt__(self, other):
+        return self.__edge_weight < other.get_edge_weight()
+
     def __repr__(self):
         id = self.get_id()
         node_a = self.get_node_a()

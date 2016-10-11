@@ -5,7 +5,7 @@ from graph import Graph
 
 print('TEST: Starting TSP Program...')
 
-finstance = "instances\instances\stsp\\bayg29.tsp"
+finstance = "instances/instances/stsp/bayg29.tsp"
 #finstance = "instances\instances\stsp\\bays29.tsp"
 #finstance = "instances\instances\stsp\\brazil58.tsp"
 #finstance = "instances\instances\stsp\\brg180.tsp"
@@ -21,18 +21,20 @@ finstance = "instances\instances\stsp\\bayg29.tsp"
 #finstance = "instances\instances\stsp\\swiss42.tsp"
 
 # Reads the instance file
-#instance_dict = read_stsp.get_stsp_data(finstance) #load .stsp file, store information as a dictionary
-instance_dict = read_kruskal_test_stsp.get_stsp_data()
+instance_dict = read_stsp.get_stsp_data(finstance) #load .stsp file, store information as a dictionary
+# instance_dict = read_kruskal_test_stsp.get_stsp_data()
 
 # Creates the Graph object based on the read instance
-my_graph = Graph(instance_dict)
+my_graph = Graph()
+my_graph.build_from_instance(instance_dict)
 
 print '\n'
-print my_graph
+# print my_graph
+# plt = my_graph.plot_graph(True)
 
-perform_kruskal_stsp.start_kruskal_algorithm(my_graph)
+my_graph_copy = perform_kruskal_stsp.start_kruskal_algorithm(my_graph)
 
-plt = my_graph.plot_graph(True)
+print my_graph_copy
 
 print "...done execution!"
 

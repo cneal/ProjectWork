@@ -14,9 +14,10 @@ class Graph(object):
         self.__edges = []
         self.__num_edges = 0
         self.__adjacency_matrix = []  # initialize an empty adjacency matrix
-        self.__adjacency_matrix_dictionary = []  # initialize an empty adjacency matrix using a dictionary os distionary
+        self.__adjacency_matrix_dictionary = {}  # initialize an empty adjacency matrix using a dictionary os distionary
 
-    def __init__(self, instanceDict={}):
+
+    def build_from_instance(self, instanceDict={}):
         """
         It builds an Graph object from an given instance. The instance is encapsulated in a Dictionary data structure
         @:param instanceDict: a dictionary containing information about the TSP problem
@@ -51,6 +52,42 @@ class Graph(object):
             if edge_weight > 0:
                 new_edge = Edge(self.__nodes[node_a_id], self.__nodes[node_b_id], edge_weight)  # create edge
                 self.add_edge(new_edge)
+
+    # def __init__(self, instanceDict={}):
+    #     """
+    #     It builds an Graph object from an given instance. The instance is encapsulated in a Dictionary data structure
+    #     @:param instanceDict: a dictionary containing information about the TSP problem
+    #     """
+    #     if not instanceDict.keys():
+    #         print "Instance's dictionary not provided. Please provide a dictionary that contains instance's information."
+    #         return
+    #
+    #     from node import Node
+    #     from edge import Edge
+    #
+    #     self.__instance_dictionary = instanceDict
+    #     self.__name = instanceDict["header"]["NAME"]  # name of the graph
+    #     self.__nodes = []  # Array of nodes
+    #     self.__num_nodes = 0  # Number of nodes
+    #     self.__edges = []  # Array of edges
+    #     self.__num_edges = 0  # Number of edges
+    #     self.__adjacency_matrix = []  # initialize an empty adjacency matrix
+    #     self.__adjacency_matrix_dictionary = {}  # initialize an empty double dictionary adjacency object
+    #
+    #     # add nodes to the graph
+    #     for curNodeVal in xrange(0, instanceDict["header"]["DIMENSION"]):
+    #         new_node = Node(curNodeVal, instanceDict["nodes"][curNodeVal])  # create a new node instance
+    #         self.add_node(new_node)  # add node to the graph
+    #
+    #     # add edges to graph
+    #     for tupleEdge in instanceDict["edges"]:
+    #         node_a_id = tupleEdge[0]
+    #         node_b_id = tupleEdge[1]
+    #         edge_weight = tupleEdge[2]
+    #
+    #         if edge_weight > 0:
+    #             new_edge = Edge(self.__nodes[node_a_id], self.__nodes[node_b_id], edge_weight)  # create edge
+    #             self.add_edge(new_edge)
 
     def add_node(self, node):
         "Add node to the graph"
