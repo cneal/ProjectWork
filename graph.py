@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class Graph(object):
     """
     Une classe generique pour representer un graphe comme un ensemble de
@@ -6,76 +9,73 @@ class Graph(object):
 
     def __init__(self, name='Sans nom'):
         self.__name = name
-        self.__nodes = []       #Private. Array of nodes
-        self.__num_nodes = 0    #Private. Size of graph
+        self.__nodes = []  # Private. Array of nodes
+        self.__num_nodes = 0  # Private. Size of graph
         self.__edges = []
         self.__num_edges = 0
-        self.__adjacency_matrix = [] #initialize an empty adjacency matrix
-        self.__adjacency_matrix_dictionary = [] #initialize an empty adjacency matrix using a dictionary os distionary
+        self.__adjacency_matrix = []  # initialize an empty adjacency matrix
+        self.__adjacency_matrix_dictionary = []  # initialize an empty adjacency matrix using a dictionary os distionary
 
-    def __init__(self, readInstance={}):
-        """ It builds an Graph object from an given instance. The instance is encapsulated in a Dictionary data structure """
-        if not readInstance.keys():
+    def __init__(self, instanceDict={}):
+        """
+        It builds an Graph object from an given instance. The instance is encapsulated in a Dictionary data structure
+        @:param instanceDict: a dictionary containing information about the TSP problem
+        """
+        if not instanceDict.keys():
             print "Instance's dictionary not provided. Please provide a dictionary that contains instance's information."
             return
 
-        import node
-        import edge
+        from node import Node
+        from edge import Edge
 
-        self.__name = readInstance["header"]["NAME"]
-        self.__nodes = []  # Private. Array of nodes
-        self.__num_nodes = 0  # Private. Number of nodes
-        self.__edges = []  # Private. Array of edges
-        self.__num_edges = 0  # Private. Number of nodes
+        self.__instance_dictionary = instanceDict
+        self.__name = instanceDict["header"]["NAME"]  # name of the graph
+        self.__nodes = []  # Array of nodes
+        self.__num_nodes = 0  # Number of nodes
+        self.__edges = []  # Array of edges
+        self.__num_edges = 0  # Number of edges
         self.__adjacency_matrix = []  # initialize an empty adjacency matrix
-        self.__adjacency_matrix_dictionary = {}  # initialize an empty adjacency matrix using a dictionary of dictionaries
+        self.__adjacency_matrix_dictionary = {}  # initialize an empty double dictionary adjacency object
 
-        for curNodeVal in xrange(0, readInstance["header"]["DIMENSION"]):
-            newNode = node.Node(curNodeVal, readInstance["nodes"][curNodeVal])  # create a new node instance
-            self.add_node(newNode)  # add node to the graph
+        # add nodes to the graph
+        for curNodeVal in xrange(0, instanceDict["header"]["DIMENSION"]):
+            new_node = Node(curNodeVal, instanceDict["nodes"][curNodeVal])  # create a new node instance
+            self.add_node(new_node)  # add node to the graph
 
         # add edges to graph
-        for tupleEdge in readInstance["edges"]:
-            fromNodeId = tupleEdge[0]
-            toNodeId = tupleEdge[1]
-            edgeWeight = tupleEdge[2]
-            newEdge1 = edge.Edge(fromNodeId, toNodeId, edgeWeight)
-            self.add_edge(newEdge1)
-            newEdge2 = edge.Edge(toNodeId, fromNodeId, edgeWeight)  # create edges in both directions
-            self.add_edge(newEdge2)  # add edges in both directions
+        for tupleEdge in instanceDict["edges"]:
+            node_a_id = tupleEdge[0]
+            node_b_id = tupleEdge[1]
+            edge_weight = tupleEdge[2]
+
+            if edge_weight > 0:
+                new_edge = Edge(self.__nodes[node_a_id], self.__nodes[node_b_id], edge_weight)  # create edge
+                self.add_edge(new_edge)
 
     def add_node(self, node):
-        "Ajoute un noeud au graphe."
+        "Add node to the graph"
         self.__nodes.append(node)
         self.__num_nodes += 1
 
     def add_edge(self, edge):
         """
         Add an edge to the graph.
-        -An Edge instance is appended to the list self.__edges[]
-        -The edge weight is put into the adjacency matrix
         """
 
-        if len(self.__adjacency_matrix) == 0:
-            self.__initialize_adjacency_matrix()  # create an empty adjacency matrix if it doesnt exist yet
+        if len(
+                self.__adjacency_matrix) == 0:  # create an empty_adjacency_matrix & adjacency_matrix_dictionary if they doesnt exist yet
+            for dimension in range(1, self.__num_nodes + 1):
+                self.__adjacency_matrix.append([0] * self.__num_nodes)  # size of matrix is (num_nodes) * (num_nodes)
+            for i in range(0, self.__num_nodes):
+                self.__adjacency_matrix_dictionary[self.__nodes[i]] = {}  # add empty dictionary elements for each node
 
-        self.__adjacency_matrix[edge.get_from_node()][edge.get_to_node()] = edge.get_edge_weight()
-        self.__adjacency_matrix_dictionary[self.__nodes[edge.get_from_node()]][self.__nodes[edge.get_to_node()]] = edge
+        self.__adjacency_matrix_dictionary[self.__nodes[edge.get_node_a().get_id()]][
+            self.__nodes[edge.get_node_b().get_id()]] = edge
+        self.__adjacency_matrix_dictionary[self.__nodes[edge.get_node_b().get_id()]][
+            self.__nodes[edge.get_node_a().get_id()]] = edge  # add edge to both directions
 
         self.__edges.append(edge)
         self.__num_edges += 1
-
-    def __initialize_adjacency_matrix(self):
-        """
-        Initializes an empty adjacency matrix. Note it does not return anything.
-        It has the dimension (num_nodes) * (num_nodes) and all values are 0 (zero)
-        A value of 0 implies that there is no link between nodes.
-        """
-        for dimension in range(1, self.__num_nodes+1):
-            self.__adjacency_matrix.append([0] * self.__num_nodes)
-
-        for i in range(0, self.__num_nodes):
-            self.__adjacency_matrix_dictionary[self.__nodes[i]] = {}
 
     def get_adjacency_matrix(self):
         """
@@ -91,10 +91,6 @@ class Graph(object):
         "Donne la liste des noeuds du graphe."
         return self.__nodes
 
-    def get_nb_nodes(self):
-        "Donne le nombre de noeuds du graphe."
-        return len(self.__nodes)
-
     def get_num_nodes(self):
         "Return the number of nodes in the graph"
         return self.__num_nodes
@@ -102,6 +98,40 @@ class Graph(object):
     def get_edges(self):
         """:return:  self.__edges"""
         return self.__edges
+
+    def plot_graph(self, do_plot):
+        """
+        Plot the graph represented by `nodes` and `edges` using Matplotlib.
+        @:param do_plot - if True the plot will be created and shown
+        """
+
+        if (do_plot == True):
+
+            nodes = self.__instance_dictionary["nodes"]
+            edges = self.__instance_dictionary["edges"]
+
+            import matplotlib.pyplot as plt
+            from matplotlib.collections import LineCollection
+
+            fig = plt.figure()
+            ax = fig.add_subplot(111)
+
+            # Plot nodes.
+            x = [node[0] for node in nodes.values()]
+            y = [node[1] for node in nodes.values()]
+
+            # Plot edges.
+            edge_pos = np.asarray([(nodes[e[0]], nodes[e[1]]) for e in edges])
+            edge_collection = LineCollection(edge_pos, linewidth=1.5, antialiased=True,
+                                             colors=(.8, .8, .8), alpha=.75, zorder=0)
+            ax.add_collection(edge_collection)
+            ax.scatter(x, y, s=35, c='r', antialiased=True, alpha=.75, zorder=1)
+            ax.set_xlim(min(x) - 10, max(x) + 10)
+            ax.set_ylim(min(y) - 10, max(y) + 10)
+
+            plt.show()
+
+        return plt
 
     def __repr__(self):
         name = self.get_name()
@@ -111,19 +141,12 @@ class Graph(object):
             s += '\n  ' + repr(node)
 
         # Prints the all the nodes with related edges
-        s += '\n\nGraph %s has %d edges' %(name, self.__num_edges)
+        s += '\n\nGraph %s has %d edges' % (name, self.__num_edges)
         for i in xrange(0, self.__num_nodes):
             neighbors = self.__adjacency_matrix_dictionary[self.__nodes[i]]
             s += "\nNode %d:\n" % i
             for nodeTo, edge in neighbors.iteritems():
                 s += "   %r\n" % edge
-
-        # Prints out the adjacency matrix for now.
-        s += "\n\nAdjacency Matrix:\n"
-        for i in xrange(0, self.__num_nodes):
-            for j in xrange(0, self.__num_nodes):
-                s += " " + str(self.__adjacency_matrix[i][j])
-            s += "\n"
 
         return s
 

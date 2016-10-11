@@ -1,25 +1,25 @@
 import sys
 import platform
 import read_stsp
-import graph
+from graph import Graph
 
 print('Starting TSP Program...')
 
-if __name__ == '__main__':
-    str('Starting TSP Program...')
-    # Read the instance file name given as argument according of the running plataform
-    if platform.system() == 'Windows':
-        finstance = "instances\instances\stsp\\" + sys.argv[1]
-    else:
-        finstance = "instances/instances/stsp/" + sys.argv[1]
+# Read the instance file name given as argument according of the running platform
+if platform.system() == 'Windows':
+    finstance = "instances\instances\stsp\\" + sys.argv[1]
+else:
+    finstance = "instances/instances/stsp/" + sys.argv[1]
 
 print "Using file: ", finstance
+
 # Reads the instance file
-readInstance = read_stsp.getStspData(finstance) #load .stsp file, store information as a dictionary
+instanceDict = read_stsp.get_stsp_data(finstance) #load .stsp file, store information as a dictionary
 
 # Creates the Graph object based on the read instance
-myGraph = graph.Graph(readInstance) # intialize the graph, pass in its name
+myGraph = Graph(instanceDict)
 
 print '\n'
 print myGraph
 
+myGraph.plot_graph(True)
