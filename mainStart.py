@@ -26,7 +26,7 @@ myGraph.build_from_instance(instanceDict)
 # Print and plot the Graph
 print '\n'
 print myGraph
-myGraph.plot_graph(True)
+#myGraph.plot_graph(True)
 
 # Build the minimum-spanning-tree from myGraph
 minimum_spanning_tree = perform_kruskal_stsp.start_kruskal_algorithm(myGraph)
@@ -34,3 +34,6 @@ minimum_spanning_tree = perform_kruskal_stsp.start_kruskal_algorithm(myGraph)
 # Print the minimum-spanning-tree
 print '\n'
 print minimum_spanning_tree
+
+
+print 'done!!'

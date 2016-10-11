@@ -18,8 +18,8 @@ def start_kruskal_algorithm(my_graph):
 
     # Kruskal`s algorithm
     for e in sorted_edges:
-        set_of_a_root = e.get_node_a().find_disjoint_set()
-        set_of_b_root = e.get_node_b().find_disjoint_set()
+        set_of_a_root = e.get_node_a().find_disjoint_set() #get the set nodes in the 1st node of the edge
+        set_of_b_root = e.get_node_b().find_disjoint_set() #get the set nodes in the 2nd node of the edge
         if set_of_a_root != set_of_b_root:
             min_spanning_tree.add_edge(e)
             set_of_a_root.set_kruskal_parent(set_of_b_root)
