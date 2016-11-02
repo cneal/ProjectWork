@@ -6,11 +6,11 @@ from graph import Graph
 
 print('TEST: Starting TSP Program...')
 
-finstance = "instances/instances/stsp\\bayg29.tsp"
+#finstance = "instances/instances/stsp\\bayg29.tsp"
 #finstance = "instances\instances\stsp\\bays29.tsp"
 #finstance = "instances\instances\stsp\\brazil58.tsp"
 #finstance = "instances\instances\stsp\\brg180.tsp"
-#finstance = "instances\instances\stsp\\dantzig42.tsp"
+finstance = "instances\instances\stsp\\dantzig42.tsp"
 #finstance = "instances\instances\stsp\\fri26.tsp"
 #finstance = "instances\instances\stsp\\gr17.tsp"
 #finstance = "instances\instances\stsp\\gr21.tsp"
@@ -38,7 +38,6 @@ print 'About to perform Kruskal algorithm'
 
 # Build the minimum-spanning-tree from myGraph
 minimum_spanning_tree = perform_kruskal_stsp.start_kruskal_algorithm(my_graph)
-
 
 min_graph_dict = minimum_spanning_tree.get_graph_dictionary()
 

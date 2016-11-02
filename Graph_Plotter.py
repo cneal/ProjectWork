@@ -31,7 +31,7 @@ def plot_graph(instance_dictionary):
 
 def plot_min_span_tree(instance_dictionary, min_graph_dict):
 
-    #plot the original graph
+    # Original Instance
     nodes = instance_dictionary["nodes"]
     edges = instance_dictionary["edges"]
 
@@ -41,7 +41,6 @@ def plot_min_span_tree(instance_dictionary, min_graph_dict):
     fig = plt.figure()
     ax = fig.add_subplot(111)
 
-    #Original Instance
     x = [node[0] for node in nodes.values()]
     y = [node[1] for node in nodes.values()]
 

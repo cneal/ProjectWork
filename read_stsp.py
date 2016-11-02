@@ -216,15 +216,15 @@ def get_stsp_data(finstance):
     with open(finstance, "r") as fd:
 
         header = read_header(fd)
-        print 'Header: ', header
+        #print 'Header: ', header
         dim = header['DIMENSION']
         edge_weight_format = header['EDGE_WEIGHT_FORMAT']
 
-        print "Reading nodes"
+        #print "Reading nodes"
         nodes = read_nodes(header, fd)
-        print nodes
+        #print nodes
 
-        print "Reading edges"
+        #print "Reading edges"
         edges = read_edges(header, fd)
         edge_list = []
         for k in range(dim):
@@ -237,7 +237,7 @@ def get_stsp_data(finstance):
                 edge_list[edge[1]].append(edge[0])
         for k in range(dim):
             edge_list[k].sort()
-            print k, edge_list[k]
+            #print k, edge_list[k]
 
         #create dictionary of the information
         stspDict["header"] = header

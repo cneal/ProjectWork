@@ -8,7 +8,7 @@ def start_kruskal_algorithm(my_graph):
     from node import Node
 
     # Creates the min_spanning_tree graph and adds nodes to min_spanning_tree graph
-    min_spanning_tree = Graph(my_graph.get_name())
+    min_spanning_tree = Graph(my_graph.get_name() + '_MIN_SPAN_TREE')
 
     for node in my_graph.get_nodes():
         min_spanning_tree.add_node(node)

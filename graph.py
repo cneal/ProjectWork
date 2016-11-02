@@ -16,7 +16,6 @@ class Graph(object):
         self.__adjacency_matrix = []  # initialize an empty adjacency matrix
         self.__adjacency_matrix_dictionary = {}  # initialize an empty adjacency matrix using a dictionary os distionary
 
-
     def build_from_instance(self, instanceDict={}):
         """
         It builds an Graph object from an given instance. The instance is encapsulated in a Dictionary data structure
@@ -109,6 +108,11 @@ class Graph(object):
         return weight
 
     def get_graph_dictionary(self):
+        """"
+        Returns a dictionary structure of the Graph. This dictionary structure is the same as what is returned
+        by the function read_stsp.get_stsp_data() in order to reuse the logic from the plotting of the graph.
+        This dictionary can be used as an input to Graph_Plotter.py
+        """
         nodes = {}
         n = 0
         for node in self.__nodes:
@@ -126,57 +130,24 @@ class Graph(object):
 
         return graph_dict
 
-    def plot_graph(self, do_plot):
-        """
-        Plot the graph represented by `nodes` and `edges` using Matplotlib.
-        @:param do_plot - if True the plot will be created and shown
-        """
-
-        if (do_plot == True):
-
-            nodes = self.__instance_dictionary["nodes"]
-            edges = self.__instance_dictionary["edges"]
-
-            import matplotlib.pyplot as plt
-            from matplotlib.collections import LineCollection
-
-            fig = plt.figure()
-            ax = fig.add_subplot(111)
-
-            # Plot nodes.
-            x = [node[0] for node in nodes.values()]
-            y = [node[1] for node in nodes.values()]
-
-            # Plot edges.
-            edge_pos = np.asarray([(nodes[e[0]], nodes[e[1]]) for e in edges])
-            edge_collection = LineCollection(edge_pos, linewidth=1.5, antialiased=True,
-                                             colors=(.8, .8, .8), alpha=.75, zorder=0)
-            ax.add_collection(edge_collection)
-            ax.scatter(x, y, s=35, c='r', antialiased=True, alpha=.75, zorder=1)
-            ax.set_xlim(min(x) - 10, max(x) + 10)
-            ax.set_ylim(min(y) - 10, max(y) + 10)
-
-            plt.show()
-
-        return plt
-
     def __repr__(self):
         name = self.get_name()
         nb_nodes = self.get_num_nodes()
+
+        #print nodes
         s = 'Graph %s has %d nodes' % (name, nb_nodes)
         for node in self.get_nodes():
             s += '\n  ' + repr(node)
 
-        # Prints the all the nodes with related edges
-        s += '\n\nGraph %s has %d edges' % (name, self.__num_edges)
-        for i in xrange(0, self.__num_nodes):
-            neighbors = self.__adjacency_matrix_dictionary[self.__nodes[i]]
-            s += "\nNode %d:\n" % i
-            for nodeTo, edge in neighbors.iteritems():
-                s += "   %r\n" % edge
+        #print edges
+        s += '\n\nGraph %s has %d edges \n' % (name, self.__num_edges)
+        n = 1
+        for edge in self.__edges:
+            s += str(n) + ': ' + repr(edge) + "\n"
+            n += 1
 
         #print the weight of the graph
-        s += '\n\n Graph has weight: %d' % (self.get_graph_weight())
+        s += '\nGraph has weight: %d \n' % (self.get_graph_weight())
 
         return s
 
