@@ -1,6 +1,7 @@
 import math
+from node import Node
 
-class Heap:
+class Heap(Node):
     """
     This class implements one heap priority queue of Node objects.
     """
@@ -88,9 +89,14 @@ class Heap:
         "Returns heap's size"
         return len(self.__items)
 
+    def get_heap_items(self):
+        "Return the items that are in the heap"
+        return self.__items
+
     def __repr__(self):
         s = "["
         for i in self.__items:
-            s += " %r," %(i.get_prim_key())
+            s += "%r," % (i.get_prim_key())
         s += "]"
+
         return s

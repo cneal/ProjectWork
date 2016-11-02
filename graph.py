@@ -48,7 +48,8 @@ class Graph(object):
             node_b_id = tupleEdge[1]
             edge_weight = tupleEdge[2]
 
-            if edge_weight > 0:
+            #if edge_weight > 0:
+            if node_a_id != node_b_id:
                 new_edge = Edge(self.__nodes[node_a_id], self.__nodes[node_b_id], edge_weight)  # create edge
                 self.add_edge(new_edge)
 
@@ -81,6 +82,9 @@ class Graph(object):
         :return:  self.__adjacency_matrix
         """
         return self.__adjacency_matrix
+
+    def get_adjacency_matrix_dictionary(self):
+        return self.__adjacency_matrix_dictionary
 
     def get_name(self):
         "Donne le nom du graphe."

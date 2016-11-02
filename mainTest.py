@@ -1,6 +1,7 @@
 import read_stsp
 import read_kruskal_test_stsp
 import perform_kruskal_stsp
+import perform_prim_stsp
 import Graph_Plotter
 from graph import Graph
 
@@ -10,7 +11,7 @@ print('TEST: Starting TSP Program...')
 #finstance = "instances\instances\stsp\\bays29.tsp"
 #finstance = "instances\instances\stsp\\brazil58.tsp"
 #finstance = "instances\instances\stsp\\brg180.tsp"
-finstance = "instances\instances\stsp\\dantzig42.tsp"
+#finstance = "instances\instances\stsp\\dantzig42.tsp"
 #finstance = "instances\instances\stsp\\fri26.tsp"
 #finstance = "instances\instances\stsp\\gr17.tsp"
 #finstance = "instances\instances\stsp\\gr21.tsp"
@@ -32,29 +33,51 @@ my_graph.build_from_instance(instance_dict)
 #print 'Initial graph: \n'
 #print my_graph
 
-
-print 'About to perform Kruskal algorithm'
-
-
-# Build the minimum-spanning-tree from myGraph
-minimum_spanning_tree = perform_kruskal_stsp.start_kruskal_algorithm(my_graph)
-
-min_graph_dict = minimum_spanning_tree.get_graph_dictionary()
-
-print instance_dict
-print min_graph_dict
-
-# Print the minimum-spanning-tree
-print '\n'
-#print minimum_spanning_tree.get_graph_weight()
+algorithm = 'prim'
 
 
-#Graph_Plotter.plot_graph(instance_dict)
-Graph_Plotter.plot_min_span_tree(instance_dict, min_graph_dict)
+if algorithm == 'kruskal':
+    print 'About to perform Kruskal algorithm'
 
-print "graph weight: %d, min span tree weight: %d" % (my_graph.get_graph_weight(), minimum_spanning_tree.get_graph_weight())
+    # Build the minimum-spanning-tree from myGraph
+    minimum_spanning_tree = perform_kruskal_stsp.start_kruskal_algorithm(my_graph)
+    min_graph_dict = minimum_spanning_tree.get_graph_dictionary()
 
-print "...done execution!"
+    print instance_dict
+    print min_graph_dict
+
+    # Print the minimum-spanning-tree
+    print '\n'
+    # print minimum_spanning_tree.get_graph_weight()
+
+    print "graph weight: %d, min span tree weight: %d" % (my_graph.get_graph_weight(), minimum_spanning_tree.get_graph_weight())
+
+    # Graph_Plotter.plot_graph(instance_dict)
+    Graph_Plotter.plot_min_span_tree(instance_dict, min_graph_dict)
+
+    print "...done execution!"
+
+else:
+    print 'About to perform Prim algorithm'
+    minimum_spanning_tree = perform_prim_stsp.start_prim_algorithm(my_graph)
+    print "graph weight: %d, min span tree weight: %d" % (
+    my_graph.get_graph_weight(), minimum_spanning_tree.get_graph_weight())
+    min_graph_dict = minimum_spanning_tree.get_graph_dictionary()
+    Graph_Plotter.plot_min_span_tree(instance_dict, min_graph_dict)
+    print "...done execution!"
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

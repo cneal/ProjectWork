@@ -14,7 +14,9 @@ class Node(object):
         self.__kruskal_parent = self
         self.__prim_parent = self
         self.__prim_key = float("inf")
+        self.__in_prim_heap = False
         self.__rank = 0
+
 
     def get_name(self):
         "Donne le nom du noeud."
@@ -39,6 +41,13 @@ class Node(object):
     def set_kruskal_parent(self, new_kruskal_parent):
         "Sets the parent of the node. It's used in kruskal's algorithm"
         self.__kruskal_parent = new_kruskal_parent
+
+    def set_in_prim_heap(self, in_heap):
+        "@in_heap: boolean"
+        self.__in_prim_heap = in_heap
+
+    def get_in_prim_heap(self):
+        return self.__in_prim_heap
 
     def find_disjoint_set(self):
         "Finds the root of the node's disjoint set. It's function do path compression."
@@ -80,7 +89,7 @@ class Node(object):
         name = self.get_name()
         data = self.get_data()
         s = 'Noeud %s (id %d)' % (name, id)
-        s += ' (Coordinates: ' + repr(data) + ')'
+        s += ' (Coordinates: ' + repr(data) + ') '
         return s
 
 

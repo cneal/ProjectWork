@@ -1,3 +1,5 @@
+import copy
+
 def start_kruskal_algorithm(my_graph):
     """
      Perform the kruskal's algorithm
@@ -11,7 +13,8 @@ def start_kruskal_algorithm(my_graph):
     min_spanning_tree = Graph(my_graph.get_name() + '_MIN_SPAN_TREE')
 
     for node in my_graph.get_nodes():
-        min_spanning_tree.add_node(node)
+        new_node = copy.copy(node)
+        min_spanning_tree.add_node(new_node)
 
     # Gets the list of edges and sorts it
     sorted_edges = my_graph.get_edges()

@@ -5,8 +5,15 @@ from graph import Graph
 import perform_kruskal_stsp
 import read_kruskal_test_stsp
 import Graph_Plotter
+import argparse
 
 print('Starting TSP Program...')
+
+parser = argparse.ArgumentParser(description='Get input arguments.')
+args = parser.parse_args()
+print args.accumulate(args.integers)
+
+
 
 # Read the instance file name given as argument according of the running platform
 if platform.system() == 'Windows':
