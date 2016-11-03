@@ -1,0 +1,15 @@
+python mainStart.py test prim verbose > out_test.txt
+python mainStart.py bayg29.tsp prim verbose plot > out_bayg29.txt
+python mainStart.py bays29.tsp prim > out_bays29.txt
+python mainStart.py brazil58.tsp prim > out_brazil58.txt
+python mainStart.py brg180.tsp prim > out_brg180.txt
+python mainStart.py dantzig42.tsp prim > out_dantzig42.txt
+python mainStart.py fri26.tsp prim > out_fri26.txt
+python mainStart.py gr17.tsp prim > out_gr17.txt
+python mainStart.py gr21.tsp prim > out_gr21.txt
+python mainStart.py gr24.tsp prim > out_gr24.txt
+python mainStart.py gr48.tsp prim > out_gr48.txt
+python mainStart.py gr120.tsp prim > out_gr120.txt
+python mainStart.py hk48.tsp prim > out_hk48.txt
+python mainStart.py pa561.tsp prim > out_pa561.txt
+python mainStart.py swiss42.tsp prim > out_swiss42.txt

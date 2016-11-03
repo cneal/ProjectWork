@@ -5,15 +5,9 @@ from graph import Graph
 import perform_kruskal_stsp
 import read_kruskal_test_stsp
 import Graph_Plotter
-import argparse
+import perform_prim_stsp
 
 print('Starting TSP Program...')
-
-parser = argparse.ArgumentParser(description='Get input arguments.')
-args = parser.parse_args()
-print args.accumulate(args.integers)
-
-
 
 # Read the instance file name given as argument according of the running platform
 if platform.system() == 'Windows':
@@ -36,24 +30,30 @@ my_graph.build_from_instance(instance_dict) #initialize with the instance inform
 print '...created graph!'
 
 # Build the minimum-spanning-tree from my_graph
-minimum_spanning_tree = perform_kruskal_stsp.start_kruskal_algorithm(my_graph) #pass in the graph, performs kruskal algorithm, returns new min-span-tree as a graph
+if sys.argv[2] == 'prim': #use prim algorithm
+    print '...using Prim\'s algorithm!'
+    minimum_spanning_tree = perform_kruskal_stsp.start_kruskal_algorithm(my_graph) #pass in the graph, performs kruskal algorithm, returns new min-span-tree as a graph
+else: #use kruskal algorithm
+    print '...using Krusgal\'s algorithm!'
+    minimum_spanning_tree = perform_prim_stsp.start_prim_algorithm(my_graph)
+
 print '...created minimum spanning tree!'
 
 #check to print out the min span tree information
-if len(sys.argv) > 2:
-    if sys.argv[2] == 'verbose':
+if len(sys.argv) > 3:
+    if sys.argv[3] == 'verbose':
         print 'PRINTING MIN SPAN TREE...'
         print minimum_spanning_tree
 
 print "original graph weight: %d, min span tree weight: %d" % (my_graph.get_graph_weight(), minimum_spanning_tree.get_graph_weight())
 
 #check to plot the min span tree
-if len(sys.argv) > 2:
-    if sys.argv[2] == 'plot':
+if len(sys.argv) > 3:
+    if sys.argv[3] == 'plot':
         print 'Creating plot...'
         Graph_Plotter.plot_min_span_tree(instance_dict, minimum_spanning_tree.get_graph_dictionary())
-if len(sys.argv) > 3:
-    if sys.argv[2] == 'plot' or sys.argv[3] == 'plot':
+if len(sys.argv) > 4:
+    if sys.argv[3] == 'plot' or sys.argv[4] == 'plot':
         print 'Creating plot...'
         Graph_Plotter.plot_min_span_tree(instance_dict, minimum_spanning_tree.get_graph_dictionary())
 

@@ -11,7 +11,7 @@ print('TEST: Starting TSP Program...')
 #finstance = "instances\instances\stsp\\bays29.tsp"
 #finstance = "instances\instances\stsp\\brazil58.tsp"
 #finstance = "instances\instances\stsp\\brg180.tsp"
-#finstance = "instances\instances\stsp\\dantzig42.tsp"
+finstance = "instances\instances\stsp\\dantzig42.tsp"
 #finstance = "instances\instances\stsp\\fri26.tsp"
 #finstance = "instances\instances\stsp\\gr17.tsp"
 #finstance = "instances\instances\stsp\\gr21.tsp"
@@ -60,8 +60,7 @@ if algorithm == 'kruskal':
 else:
     print 'About to perform Prim algorithm'
     minimum_spanning_tree = perform_prim_stsp.start_prim_algorithm(my_graph)
-    print "graph weight: %d, min span tree weight: %d" % (
-    my_graph.get_graph_weight(), minimum_spanning_tree.get_graph_weight())
+    print "graph weight: %d, min span tree weight: %d" % (my_graph.get_graph_weight(), minimum_spanning_tree.get_graph_weight())
     min_graph_dict = minimum_spanning_tree.get_graph_dictionary()
     Graph_Plotter.plot_min_span_tree(instance_dict, min_graph_dict)
     print "...done execution!"
