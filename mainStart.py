@@ -32,10 +32,10 @@ print '...created graph!'
 # Build the minimum-spanning-tree from my_graph
 if sys.argv[2] == 'prim': #use prim algorithm
     print '...using Prim\'s algorithm!'
-    minimum_spanning_tree = perform_kruskal_stsp.start_kruskal_algorithm(my_graph) #pass in the graph, performs kruskal algorithm, returns new min-span-tree as a graph
+    minimum_spanning_tree = perform_prim_stsp.start_prim_algorithm(my_graph)
 else: #use kruskal algorithm
     print '...using Krusgal\'s algorithm!'
-    minimum_spanning_tree = perform_prim_stsp.start_prim_algorithm(my_graph)
+    minimum_spanning_tree = perform_kruskal_stsp.start_kruskal_algorithm(my_graph) #pass in the graph, performs kruskal algorithm, returns new min-span-tree as a graph
 
 print '...created minimum spanning tree!'
 

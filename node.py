@@ -50,7 +50,7 @@ class Node(object):
         return self.__in_prim_heap
 
     def find_disjoint_set(self):
-        "Finds the root of the node's disjoint set. It's function do path compression."
+        "Finds the root of the node's disjoint set. This function does path compression."
         if self.__kruskal_parent != self:
             self.__kruskal_parent = self.__kruskal_parent.find_disjoint_set()
         return self.__kruskal_parent
