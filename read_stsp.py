@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 def read_header(fd):
     "Parse a .tsp file and return a dictionary with header data."
@@ -39,21 +40,16 @@ def read_nodes(header, fd):
     if node_coord_type not in ['TWOD_COORDS', 'THREED_COORDS'] and \
             display_data_type not in ['COORDS_DISPLAY', 'TWOD_DISPLAY']:
 
-                # Node coordinates are not given. Create fake coordinates
-                xVal = 50
-                yVal = 50
-                xCount = 0
-                for k in range(dim):
+                # Node coordinates are not given. Create fake coordinates. Creates a circle of points
+                radius = dim * 2
+                for k in xrange(dim):
+                    k = float(k)
+                    angle = (k/(dim/2)) * 3.14 #the idea for this formula came from this site: http://bl.ocks.org/bycoffe/3404776
+                    xVal = (radius * math.cos(angle)) + 1
+                    yVal = (radius * math.sin(angle)) + 1
+                    #print "k: %d, radius: %d, dim: %d, angle: %d , xVal: %d, yVal: %d" % (k, radius, dim, angle, xVal, yVal)
                     data = [xVal, yVal]
                     nodes[k] = tuple(map(float, data))
-                    xCount += 1
-                    if xCount < 10:
-                        xVal += 100
-                        xCount += 1
-                    else:
-                        xCount = 0
-                        yVal += 100
-                        xVal = 50
 
                 return nodes
 

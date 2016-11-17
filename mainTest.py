@@ -1,3 +1,4 @@
+import perform_rsl_stsp
 import read_stsp
 import read_kruskal_test_stsp
 import perform_kruskal_stsp
@@ -7,11 +8,11 @@ from graph import Graph
 
 print('TEST: Starting TSP Program...')
 
-#finstance = "instances/instances/stsp\\bayg29.tsp"
+finstance = "instances/instances/stsp\\bayg29.tsp"
 #finstance = "instances\instances\stsp\\bays29.tsp"
 #finstance = "instances\instances\stsp\\brazil58.tsp"
 #finstance = "instances\instances\stsp\\brg180.tsp"
-finstance = "instances\instances\stsp\\dantzig42.tsp"
+#finstance = "instances\instances\stsp\\dantzig42.tsp"
 #finstance = "instances\instances\stsp\\fri26.tsp"
 #finstance = "instances\instances\stsp\\gr17.tsp"
 #finstance = "instances\instances\stsp\\gr21.tsp"
@@ -34,6 +35,7 @@ my_graph.build_from_instance(instance_dict)
 #print my_graph
 
 algorithm = 'prim'
+start_node = 5
 
 
 if algorithm == 'kruskal':
@@ -59,13 +61,17 @@ if algorithm == 'kruskal':
 
 else:
     print 'About to perform Prim algorithm'
-    minimum_spanning_tree = perform_prim_stsp.start_prim_algorithm(my_graph)
+    minimum_spanning_tree = perform_prim_stsp.start_prim_algorithm(my_graph, start_node)
     print "graph weight: %d, min span tree weight: %d" % (my_graph.get_graph_weight(), minimum_spanning_tree.get_graph_weight())
     min_graph_dict = minimum_spanning_tree.get_graph_dictionary()
     Graph_Plotter.plot_min_span_tree(instance_dict, min_graph_dict)
     print "...done execution!"
 
+print "original graph weight: %d, min span tree weight: %d" % (my_graph.get_graph_weight(), minimum_spanning_tree.get_graph_weight())
+print "...creating a minimum tour"
+min_tour = perform_rsl_stsp.start_rsl_stsp(minimum_spanning_tree, start_node)
 
+print finstance
 
 
 

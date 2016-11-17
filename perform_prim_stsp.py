@@ -1,11 +1,11 @@
 import copy
 from heap import Heap
 
-def start_prim_algorithm(my_graph):
+def start_prim_algorithm(my_graph, start_node):
     """
      Perform Primm's algorithm
-     entry: Graph object - original complete graph
-     return: Graph object - minimum spanning graph
+     @:param: my_graph: Graph object - original complete graph
+     @:return: min_spanning_tree: Graph object - minimum spanning graph
     """
     from graph import Graph
 
@@ -13,20 +13,21 @@ def start_prim_algorithm(my_graph):
     min_spanning_tree = Graph(my_graph.get_name() + '_MIN_SPAN_TREE_PRIM')
 
     prim_heap = Heap() #initialize a heap data structure to extract min node
-    root_set = False
+    counter = 0
     for node in my_graph.get_nodes():
         #i) set prim values
-        if root_set == False:
-            node.set_prim_key(0) #set root node to 0
-            root_set = True
+        if counter == start_node:
+            node.set_prim_key(0) #set the root node, is has a key of 0
         prim_heap.insert(node)
         node.set_in_prim_heap(True) #flag to indicated the node is still in the Prim Heap
+        counter += 1
         #ii) initialize new min span tree node
         new_node = copy.copy(node)
         min_spanning_tree.add_node(new_node)
 
     while prim_heap.get_size() > 0:
-        cur_min = prim_heap.extract_minimum() #get minimum noded
+        cur_min = prim_heap.extract_minimum() #get minimum node
+        #print cur_min
         cur_min.set_in_prim_heap(False) #indicate the node is no longer in the heap
 
         if cur_min != cur_min.get_prim_parent():
