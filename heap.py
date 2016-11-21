@@ -69,7 +69,7 @@ class Heap(Node):
             print "Empty Heap!"
             return None
 
-        if new_value > self.__items[index]:
+        if new_value > self.__items[index].get_prim_key():
             print "New value: %f for index: %d is bigger than the current." %(new_value, index)
             return None
 

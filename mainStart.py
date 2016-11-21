@@ -7,6 +7,7 @@ import read_kruskal_test_stsp
 import perform_prim_stsp
 import perform_rsl_stsp
 import Graph_Plotter
+import read_rsl_test_stsp
 
 #python mainStart.py bayg29.tsp 5 kruskal plot verbose
 
@@ -24,6 +25,7 @@ if sys.argv[1] != 'test':
 else:
     finstance = 'test'
     instance_dict = read_kruskal_test_stsp.get_stsp_data() #load the test instance discussed in class
+    instance_dict = read_rsl_test_stsp.get_stsp_data()  # load the test instance discussed in class
 
 print "Using file: ", finstance
 
@@ -49,10 +51,11 @@ else:
     quit()
 
 print '...created minimum spanning tree!'
-
 print "original graph weight: %d, min span tree weight: %d" % (my_graph.get_graph_weight(), minimum_spanning_tree.get_graph_weight())
+
 print "...creating a minimum tour"
-min_tour = perform_rsl_stsp.start_rsl_stsp(minimum_spanning_tree, start_node)
+min_tour = perform_rsl_stsp.start_rsl_stsp(my_graph, minimum_spanning_tree, start_node)
+print "minimum tour cost: %d" %(min_tour.get_graph_weight())
 
 if 'verbose' in sys.argv:
     print 'PRINTING MIN SPAN TREE...'
@@ -61,5 +64,6 @@ if 'verbose' in sys.argv:
 if 'plot' in sys.argv:
     print 'Creating plot...'
     Graph_Plotter.plot_min_span_tree(instance_dict, minimum_spanning_tree.get_graph_dictionary())
+    Graph_Plotter.plot_graph(min_tour.get_graph_dictionary())
 
 print 'done!!'

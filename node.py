@@ -17,6 +17,7 @@ class Node(object):
         self.__in_prim_heap = False
         self.__rank = 0
 
+        self.__visited_dfs = False
 
     def get_name(self):
         "Donne le nom du noeud."
@@ -79,10 +80,20 @@ class Node(object):
         self.__prim_parent = new_prim_parent
 
     def get_prim_key(self):
+        "Returns the value of prim's key"
         return self.__prim_key
 
     def set_prim_key(self, new_value):
+        "Sets the value of prim's key"
         self.__prim_key = new_value
+
+    def is_visited_dfs(self):
+        "Informs if the node was visited in the dfs"
+        return self.__visited_dfs
+
+    def set_visited_dfs(self, value):
+        "Sets the value of __visited_dfs"
+        self.__visited_dfs = value
 
     def __repr__(self):
         id = self.get_id()
@@ -92,6 +103,8 @@ class Node(object):
         s += ' (Coordinates: ' + repr(data) + ') '
         return s
 
+    def __lt__(self, other):
+        return self.__id < other.get_id()
 
 if __name__ == '__main__':
 
