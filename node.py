@@ -71,19 +71,23 @@ class Node(object):
         if set_of_a_root.get_rank == set_of_b_root.get_rank():
             set_of_b_root.increase_rank()
 
-    def get_prim_parent(self):
+    @property
+    def prim_parent(self):
         "Returns the parent of the node. It's used in prim's algorithm"
         return self.__prim_parent
 
-    def set_prim_parent(self, new_prim_parent):
+    @prim_parent.setter
+    def prim_parent(self, new_prim_parent):
         "Sets the parent of the node. It's used in prim's algorithm"
         self.__prim_parent = new_prim_parent
 
-    def get_prim_key(self):
+    @property
+    def prim_key(self):
         "Returns the value of prim's key"
         return self.__prim_key
 
-    def set_prim_key(self, new_value):
+    @prim_key.setter
+    def prim_key(self, new_value):
         "Sets the value of prim's key"
         self.__prim_key = new_value
 

@@ -26,12 +26,12 @@ class Heap(Node):
         left_child = self.__get_left_child(index)
         right_child = self.__get_right_child(index)
 
-        if left_child <= self.get_size()-1 and self.__items[left_child].get_prim_key() < self.__items[index].get_prim_key():
+        if left_child <= self.get_size()-1 and self.__items[left_child].prim_key < self.__items[index].prim_key:
             lowest = left_child
         else:
             lowest = index
 
-        if right_child <= self.get_size()-1 and self.__items[right_child].get_prim_key() < self.__items[lowest].get_prim_key():
+        if right_child <= self.get_size()-1 and self.__items[right_child].prim_key < self.__items[lowest].prim_key:
             lowest = right_child
 
         if lowest != index:
@@ -69,12 +69,12 @@ class Heap(Node):
             print "Empty Heap!"
             return None
 
-        if new_value > self.__items[index].get_prim_key():
+        if new_value > self.__items[index].prim_key:
             print "New value: %f for index: %d is bigger than the current." %(new_value, index)
             return None
 
-        self.__items[index].set_prim_key(new_value)
-        while index > 0 and self.__items[self.__get_parent(index)].get_prim_key() > new_value:
+        self.__items[index].prim_key = new_value
+        while index > 0 and self.__items[self.__get_parent(index)].prim_key > new_value:
             aux = self.__items[self.__get_parent(index)]
             self.__items[self.__get_parent(index)] = self.__items[index]
             self.__items[index] = aux
@@ -83,7 +83,7 @@ class Heap(Node):
     def insert(self, newElement):
         "Inserts one new Node in the heap"
         self.__items.append(newElement)
-        self.decrease_key_at(self.get_size()-1, newElement.get_prim_key())
+        self.decrease_key_at(self.get_size()-1, newElement.prim_key)
 
     def get_size(self):
         "Returns heap's size"
@@ -96,7 +96,7 @@ class Heap(Node):
     def __repr__(self):
         s = "["
         for i in self.__items:
-            s += "%r," % (i.get_prim_key())
+            s += "%r," % (i.prim_key)
         s += "]"
 
         return s
