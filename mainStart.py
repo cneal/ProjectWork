@@ -71,7 +71,7 @@ if find_best is False: #perform the algorithm for the given start node
 
     if 'plot' in sys.argv:
         print 'Creating plot...'
-        Graph_Plotter.plot_over_full_graph(instance_dict, min_tour.get_graph_dictionary())
+        Graph_Plotter.plot_over_full_graph(instance_dict, min_tour.get_graph_dictionary(), start_node)
 
 else: #perform the algorithm for all nodes in the instance and find the best one
 
@@ -80,6 +80,7 @@ else: #perform the algorithm for all nodes in the instance and find the best one
 
     cur_best_starting_node = -1
     cur_best_tour_length = -1
+    cur_best_tour = Graph(my_graph.get_name() + '_RSL_TOUR')
 
     for start_node in xrange(num_nodes):
         if min_tree_alg == 'prim':
@@ -92,7 +93,11 @@ else: #perform the algorithm for all nodes in the instance and find the best one
         if cur_best_tour_length == -1 or min_tour_length < cur_best_tour_length:
             cur_best_tour_length = min_tour_length
             cur_best_starting_node = start_node
+            cur_best_tour = min_tour
 
+    if 'plot' in sys.argv:
+        print 'Creating plot...'
+        Graph_Plotter.plot_over_full_graph(instance_dict, cur_best_tour.get_graph_dictionary(), cur_best_starting_node)
     print 'Best start_node: %d, Best length: %d' % (cur_best_starting_node, cur_best_tour_length)
 
 print 'done!!'

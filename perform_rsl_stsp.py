@@ -15,6 +15,7 @@ def start_rsl_stsp(graph, min_span_tree, start_node):
     #print "Starting RSL tour from node %d" % (start_node)
 
     for node in min_span_tree.get_nodes():
+        node.set_visited_dfs(False)
         new_node = copy.copy(node)
         min_tour.add_node(new_node)
 
