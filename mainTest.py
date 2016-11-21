@@ -3,6 +3,7 @@ import read_stsp
 import read_kruskal_test_stsp
 import perform_kruskal_stsp
 import perform_prim_stsp
+import read_rsl_test_stsp
 import Graph_Plotter
 from graph import Graph
 
@@ -26,6 +27,7 @@ finstance = "instances/instances/stsp\\bayg29.tsp"
 # Reads the instance file
 instance_dict = read_stsp.get_stsp_data(finstance) #load .stsp file, store information as a dictionary
 #instance_dict = read_kruskal_test_stsp.get_stsp_data()
+#instance_dict = read_rsl_test_stsp.get_stsp_data()
 
 # Creates the Graph object based on the read instance
 my_graph = Graph()
@@ -35,7 +37,7 @@ my_graph.build_from_instance(instance_dict)
 #print my_graph
 
 algorithm = 'prim'
-start_node = 5
+start_node = 10
 
 
 if algorithm == 'kruskal':
@@ -55,7 +57,7 @@ if algorithm == 'kruskal':
     print "graph weight: %d, min span tree weight: %d" % (my_graph.get_graph_weight(), minimum_spanning_tree.get_graph_weight())
 
     # Graph_Plotter.plot_graph(instance_dict)
-    Graph_Plotter.plot_min_span_tree(instance_dict, min_graph_dict)
+    #Graph_Plotter.plot_over_full_graph(instance_dict, min_graph_dict)
 
     print "...done execution!"
 
@@ -64,14 +66,17 @@ else:
     minimum_spanning_tree = perform_prim_stsp.start_prim_algorithm(my_graph, start_node)
     print "graph weight: %d, min span tree weight: %d" % (my_graph.get_graph_weight(), minimum_spanning_tree.get_graph_weight())
     min_graph_dict = minimum_spanning_tree.get_graph_dictionary()
-    Graph_Plotter.plot_min_span_tree(instance_dict, min_graph_dict)
+    #Graph_Plotter.plot_over_full_graph(instance_dict, min_graph_dict)
     print "...done execution!"
 
 print "original graph weight: %d, min span tree weight: %d" % (my_graph.get_graph_weight(), minimum_spanning_tree.get_graph_weight())
 print "...creating a minimum tour"
-min_tour = perform_rsl_stsp.start_rsl_stsp(minimum_spanning_tree, start_node)
 
-print finstance
+min_tour = perform_rsl_stsp.start_rsl_stsp(my_graph, minimum_spanning_tree, start_node)
+print "minimum tour cost: %d" %(min_tour.get_graph_weight())
+Graph_Plotter.plot_over_full_graph(instance_dict, min_tour.get_graph_dictionary(), start_node)
+
+#print finstance
 
 
 
