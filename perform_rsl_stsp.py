@@ -3,7 +3,8 @@ import copy
 def start_rsl_stsp(graph, min_span_tree, start_node):
     """
      Perform Primm's algorithm
-     @:param: my_graph: Graph object - original complete graph
+     @:param: graph: Graph object - original complete graph
+     @:param min_span_tree: our minimum spanning tree
      @:param start_node: Node to start the tour from
      @:return: min_tour: Graph object - minimum spanning graph
     """
