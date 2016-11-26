@@ -48,8 +48,7 @@ else:
     start_node = int(sys.argv[2])
     print "Starting from node %d..." % (start_node)
 
-min_tree_alg = sys.argv[3]
-print min_tree_alg
+min_tree_alg = sys.argv[3]  #get the algorithm from teh
 if min_tree_alg != 'prim' and min_tree_alg != 'kruskal':
     print 'Please enter a valid algorithm: prim OR kruskal'
     print 'exiting!!'
