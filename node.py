@@ -34,21 +34,24 @@ class Node(object):
     def get_rank(self):
         "Returns the node's rank."
         return self.__rank
-
-    def get_kruskal_parent(self):
+    @property
+    def kruskal_parent(self):
         "Returns the parent of the node. It's used in kruskal's algorithm"
         return self.__kruskal_parent
 
-    def set_kruskal_parent(self, new_kruskal_parent):
+    @kruskal_parent.setter
+    def kruskal_parent(self, new_kruskal_parent):
         "Sets the parent of the node. It's used in kruskal's algorithm"
         self.__kruskal_parent = new_kruskal_parent
 
-    def set_in_prim_heap(self, in_heap):
+    @property
+    def in_prim_heap(self):
+        return self.__in_prim_heap
+
+    @in_prim_heap.setter
+    def in_prim_heap(self, in_heap):
         "@in_heap: boolean"
         self.__in_prim_heap = in_heap
-
-    def get_in_prim_heap(self):
-        return self.__in_prim_heap
 
     def find_disjoint_set(self):
         "Finds the root of the node's disjoint set. This function does path compression."
@@ -64,9 +67,9 @@ class Node(object):
     def union_by_rank(set_of_a_root, set_of_b_root):
         "It function unites two disjointed sets considering the roots' ranks"
         if set_of_a_root.get_rank() > set_of_b_root.get_rank():
-            set_of_b_root.set_kruskal_parent(set_of_a_root.get_kruskal_parent())
+            set_of_b_root.kruskal_parent = set_of_a_root.kruskal_parent
         else:
-            set_of_a_root.set_kruskal_parent(set_of_b_root)
+            set_of_a_root.kruskal_parent = set_of_b_root
 
         if set_of_a_root.get_rank == set_of_b_root.get_rank():
             set_of_b_root.increase_rank()
@@ -91,11 +94,13 @@ class Node(object):
         "Sets the value of prim's key"
         self.__prim_key = new_value
 
+    @property
     def is_visited_dfs(self):
         "Informs if the node was visited in the dfs"
         return self.__visited_dfs
 
-    def set_visited_dfs(self, value):
+    @is_visited_dfs.setter
+    def is_visited_dfs(self, value):
         "Sets the value of __visited_dfs"
         self.__visited_dfs = value
 

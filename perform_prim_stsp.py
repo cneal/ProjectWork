@@ -22,7 +22,7 @@ def start_prim_algorithm(my_graph, start_node):
             node.prim_key = float("inf") #non-root nodes have key initialized to infinity
         node.prim_parent = node #initialize the parent to itself
         prim_heap.insert(node)
-        node.set_in_prim_heap(True) #flag to indicated the node is still in the Prim Heap
+        node.in_prim_heap = True #flag to indicated the node is still in the Prim Heap
         counter += 1
         #ii) initialize new min span tree node
         new_node = copy.copy(node)
@@ -31,7 +31,7 @@ def start_prim_algorithm(my_graph, start_node):
     while prim_heap.get_size() > 0:
         cur_min = prim_heap.extract_minimum() #get minimum node
         #print cur_min
-        cur_min.set_in_prim_heap(False) #indicate the node is no longer in the heap
+        cur_min.in_prim_heap = False #indicate the node is no longer in the heap
 
         if cur_min != cur_min.prim_parent:
             edge = my_graph.get_adjacency_matrix_dictionary()[cur_min][cur_min.prim_parent] #get the edge between the current_min node and its parent node
@@ -40,7 +40,7 @@ def start_prim_algorithm(my_graph, start_node):
         neighbors = my_graph.get_adjacency_matrix_dictionary()[cur_min] #get all the neighbors
 
         for cur_neighbor, edge in neighbors.iteritems():
-            if cur_neighbor.get_in_prim_heap() and edge.get_edge_weight() < cur_neighbor.prim_key: #if neighbor is in the heap AND if the current edge weight is less than its prim_key
+            if cur_neighbor.in_prim_heap and edge.get_edge_weight() < cur_neighbor.prim_key: #if neighbor is in the heap AND if the current edge weight is less than its prim_key
                 cur_neighbor.prim_parent = cur_min
                 cur_neighbor.prim_key = edge.get_edge_weight()
                 neighbor_heap_index = prim_heap.get_heap_items().index(cur_neighbor) #find where the node is in the heap

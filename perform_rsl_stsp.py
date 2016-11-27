@@ -15,7 +15,7 @@ def start_rsl_stsp(graph, min_span_tree, start_node):
     #print "Starting RSL tour from node %d" % (start_node)
 
     for node in min_span_tree.get_nodes():
-        node.set_visited_dfs(False)
+        node.is_visited_dfs = False
         new_node = copy.copy(node)
         min_tour.add_node(new_node)
 
@@ -23,7 +23,7 @@ def start_rsl_stsp(graph, min_span_tree, start_node):
     # list that acts like a queue
     queue = [min_span_tree.get_nodes()[start_node]]
     # Mark the start_node as visited
-    min_span_tree.get_nodes()[start_node].set_visited_dfs(True)
+    min_span_tree.get_nodes()[start_node].is_visited_dfs = True
     tour_ordering = []
 
     #Perform an iterative dfs using preorder visit policy
@@ -35,8 +35,8 @@ def start_rsl_stsp(graph, min_span_tree, start_node):
         #We must visit the nodes in preorder, then we have to sort the child nodes
         # and reverse them in order to do it.
         for node in reversed(sorted(neighbors.keys())):
-            if not node.is_visited_dfs():
-                node.set_visited_dfs(True)
+            if not node.is_visited_dfs:
+                node.is_visited_dfs = True
                 queue.append(node)
 
     # Builds the approximate minimum tour using graph object. We used the complete graph object
