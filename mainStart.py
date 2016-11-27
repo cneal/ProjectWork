@@ -48,8 +48,7 @@ else:
     start_node = int(sys.argv[2])
     print "Starting from node %d..." % (start_node)
 
-min_tree_alg = sys.argv[3]
-print min_tree_alg
+min_tree_alg = sys.argv[3]  #get the algorithm from teh
 if min_tree_alg != 'prim' and min_tree_alg != 'kruskal':
     print 'Please enter a valid algorithm: prim OR kruskal'
     print 'exiting!!'
@@ -68,12 +67,16 @@ if find_best is False: #perform the algorithm for the given start node
 
     print "...creating a minimum tour"
     min_tour = perform_rsl_stsp.start_rsl_stsp(my_graph, minimum_spanning_tree, start_node)
-    min_tour_cost = min_tour.get_graph_weight()
+    min_tour_length = min_tour.get_graph_weight()
 
     if sys.argv[1] == 'test':
-        print "minimum tour cost: %d" % min_tour_cost
+        print "minimum tour cost: %d" % min_tour_length
     else:
-        print "minimum tour cost: %d,  relative error from optimal solution: %.2f" % (min_tour_cost, (float(min_tour_cost - optimal_tour_costs[sys.argv[1]]) / float(optimal_tour_costs[sys.argv[1]]))*100.0)
+        optimal_tour_cost = optimal_tour_costs[sys.argv[1]]
+        print "start_node: %d, algorithm: %s, min_span_tree: %d, optimal_tour_length: %d, min_tour_length: %d, difference: %d relative error: %.2f" % (
+            start_node, min_tree_alg, minimum_spanning_tree.get_graph_weight(), optimal_tour_cost, min_tour_length,
+            min_tour_length - optimal_tour_cost,
+            (float(min_tour_length - optimal_tour_cost) / float(optimal_tour_cost)) * 100.0)
 
     if 'plot' in sys.argv:
         print 'Creating plot...'
@@ -83,6 +86,8 @@ else: #perform the algorithm for all nodes in the instance and find the best one
 
     if min_tree_alg == 'kruskal':
         minimum_spanning_tree = perform_kruskal_stsp.start_kruskal_algorithm(my_graph)  # pass in the graph, performs kruskal algorithm, returns new min-span-tree as a graph
+
+    optimal_tour_cost = optimal_tour_costs[sys.argv[1]]
 
     cur_best_starting_node = -1
     cur_best_tour_length = -1
@@ -94,16 +99,19 @@ else: #perform the algorithm for all nodes in the instance and find the best one
 
         min_tour = perform_rsl_stsp.start_rsl_stsp(my_graph, minimum_spanning_tree, start_node)
         min_tour_length = min_tour.get_graph_weight()
-        print "start_node: %d, min_span_tree: %d, min_tour_length: %d, relative error: %.2f" % (start_node, minimum_spanning_tree.get_graph_weight(), min_tour_length, ((float(min_tour_length - optimal_tour_costs[sys.argv[1]])/float(optimal_tour_costs[sys.argv[1]])))*100.0)
+
+        print "start_node: %d, algorithm: %s, min_span_tree: %d, optimal_tour_length: %d, min_tour_length: %d, difference: %d relative error: %.2f" % (
+        start_node, min_tree_alg,  minimum_spanning_tree.get_graph_weight(), optimal_tour_cost, min_tour_length, min_tour_length - optimal_tour_cost, (float(min_tour_length - optimal_tour_cost)/float(optimal_tour_cost)) * 100.0)
 
         if cur_best_tour_length == -1 or min_tour_length < cur_best_tour_length:
             cur_best_tour_length = min_tour_length
             cur_best_starting_node = start_node
             cur_best_tour = min_tour
 
+    print 'Best length: %d, Best start_node: %d, Difference: %d, Best relative error: %.2f' % (cur_best_tour_length, cur_best_starting_node, cur_best_tour_length - optimal_tour_cost, (float(cur_best_tour_length - optimal_tour_cost)/float(optimal_tour_cost)) * 100.0)
+
     if 'plot' in sys.argv:
         print 'Creating plot...'
         Graph_Plotter.plot_over_full_graph(instance_dict, cur_best_tour.get_graph_dictionary(), cur_best_starting_node)
-    print 'Best start_node: %d, Best length: %d, Best relative error: %.2f' % (cur_best_starting_node, cur_best_tour_length, ((float(cur_best_tour_length - optimal_tour_costs[sys.argv[1]])/float(optimal_tour_costs[sys.argv[1]])))*100.0)
 
 print 'done!!'
