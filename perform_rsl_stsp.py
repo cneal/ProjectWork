@@ -42,15 +42,19 @@ def start_rsl_stsp(graph, min_span_tree, start_node):
 
     # Builds the approximate minimum tour using graph object. We used the complete graph object
     # because we needed to access the original graph's edges
+
+    geo_point_order = [tour_ordering[0].get_id()]
     for i in xrange(len(tour_ordering)-1):
         u = graph.get_nodes()[tour_ordering[i].get_id()]
         v = graph.get_nodes()[tour_ordering[i+1].get_id()]
+        geo_point_order.append(tour_ordering[i+1].get_id())
 
         min_tour.add_edge(graph.get_adjacency_matrix_dictionary()[u][v])
 
     u = graph.get_nodes()[tour_ordering[-1].get_id()]
     v = graph.get_nodes()[tour_ordering[0].get_id()]
     min_tour.add_edge(graph.get_adjacency_matrix_dictionary()[u][v])
+    geo_point_order.append(tour_ordering[0].get_id())
 
     #Return the approximate minimum tour
-    return min_tour
+    return min_tour, geo_point_order

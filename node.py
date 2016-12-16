@@ -104,6 +104,10 @@ class Node(object):
         "Sets the value of __visited_dfs"
         self.__visited_dfs = value
 
+    @staticmethod
+    def reset_node_count():
+        Node.__node_count = -1
+
     def __repr__(self):
         id = self.get_id()
         name = self.get_name()
